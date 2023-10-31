@@ -29,6 +29,7 @@ class Sprite{
             width: 100,
         }
         this.isAttacking
+        this.health = 100
     }
 
     //vẽ nhân vật
@@ -186,7 +187,8 @@ function animate(){
         })
         && player.isAttacking){
         player.isAttacking = false
-        console.log('player acttacking');
+        enemy.health -= 20
+        document.querySelector('#enemy_health').style.width = enemy.health + '%'
     }
     //Nhận diện vùng va chạm enemy 
     if (
@@ -196,7 +198,8 @@ function animate(){
         })
         && enemy.isAttacking){
         enemy.isAttacking = false
-        console.log('enemy acttacking');
+        player.health -= 20
+        document.querySelector('#player_health').style.width = player.health + '%'
     }
 
     player.isAttacking = false

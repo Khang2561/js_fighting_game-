@@ -8,78 +8,15 @@ c.fillRect(0, 0, canvas.width, canvas.height)//vẽ hình chữ nhật
 
 const gravity = 0.7 
 
-/*Sprite start*/
-class Sprite{
-
-    //hàm mặt định
-    constructor({position, velocity, color,offset}){
-        this.position = position//vị trí
-        this.velocity = velocity//vân tốc 
-        this.height = 150
-        this.width = 50
-        this.lastKey
-        this.color = this.color
-        this.attackBox = {
-            position: {
-                x: this.position.x,
-                y: this.position.y
-            },
-            offset,
-            height: 50,
-            width: 100,
-        }
-        this.isAttacking
-        this.health = 100
-    }
-
-    //vẽ nhân vật
-    draw(){
-        //draw player
-        c.fillStyle = this.color
-        c.fillRect(this.position.x, this.position.y, this.width,this.height)//width = 50, height = 100
-        
-        if (this.isAttacking){
-            //draw attack box 
-            c.fillStyle = 'green'
-            c.fillRect(
-                this.attackBox.position.x, 
-                this.attackBox.position.y, 
-                this.attackBox.width, 
-                this.attackBox.height)
-        }
-        //draw attack box 
-       
-    }
-
-    update(){
-        //duy chuyển attack box theo nhân vật 
-        this.draw()
-        this.attackBox.position.x = this.position.x + this.attackBox.offset.x
-        this.attackBox.position.y = this.position.y
-
-        this.position.x += this.velocity.x//duy chuyen trai phai
-        this.position.y += this.velocity.y//roi xuong cua nhan vat
-        //tạo phạm vi dưới cho bảng đồ 
-        if (this.position.y + this.height + this.velocity.y >= canvas.height){
-            this.velocity.y = 0
-        }
-        else{
-            this.velocity.y += gravity//thêm trọng lượng cho nhân vật 
-        }
-    }
-
-    attack() {
-        this.isAttacking = true
-        setTimeout(() =>{
-            this.isAttacking =false
-        },100)
-    }
-}
-/*Sprite end*/
-
-
+const background = new Sprite({
+    position:{
+        x : 0,
+        y : 0
+    },
+    imageSrc: './img/background.png'
+})
 //tao ra player 1 start
-const player =  new Sprite({
+const player =  new Fighter({
     position: {
         x: 0,
         y: 0
@@ -98,7 +35,7 @@ player.color = 'red'
 //tao ra player 1 end
 
 //tao ra player2 strat
-const enemy =  new Sprite({
+const enemy =  new Fighter({
     position: {
         x: 400,
         y: 100
@@ -141,56 +78,18 @@ const keys = {
     }
 }
 
-// hàm nhận diện va chạm 
-function rectangulareCollirion({rectangule1, rectangule2}){
-    return (
-        rectangule1.attackBox.position.x + rectangule1.attackBox.width >= 
-        rectangule2.position.x && rectangule1.attackBox.position.x <= rectangule2.position.x + rectangule2.width
-        && rectangule1.attackBox.position.y + rectangule1.attackBox.height >= rectangule2.position.y
-        && rectangule1.attackBox.position.y <= rectangule2.position.y + rectangule2.height
-        )
-}
 
-//Nhận diện ai thắng 
-function determineWinner({player, enemy, timeId}){
-    clearTimeout(timeId)
-    document.querySelector('#displayText').style.display = 'flex'
-    if (player.health === enemy.health){
-        document.querySelector('#displayText').innerHTML = 'Time'
-    }
-    else if (player.health > enemy.health){
-        document.querySelector('#displayText').innerHTML = 'Player 1 Wins'
-    }
-    else if (player.health < enemy.health){
-        document.querySelector('#displayText').innerHTML = 'Player 2 Wins'
-    }
-}
-
-
-//hàm đếm ngược thời gian 
-let time = 60
-let timeId
-function decreaseTimer(){
-    if (time>0){
-        timeId = setTimeout(decreaseTimer,1000)
-        time--
-        document.querySelector('#timer').innerHTML = time
-    }
-    //in ra màn hình thông tin 
-    if (time ===0){
-       determineWinner({player,enemy, timeId})
-    }
-
-}
 
 decreaseTimer()
 /*Animate start*/
 function animate(){
     window.requestAnimationFrame(animate)//vòng lặp liên hồi 
     c.fillStyle = 'black'//background color
+    
     c.fillRect(0,0,canvas.width, canvas.height)//background color
-    player.update()
-    enemy.update()
+    background.update()//background image 
+    player.update()//update player
+    enemy.update()//update enemy 
 
     player.velocity.x = 0//dung khi khong con an nut duy chuyen trai phai
     enemy.velocity.x = 0

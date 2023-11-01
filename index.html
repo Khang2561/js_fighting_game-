@@ -37,11 +37,19 @@
                 </div>
             </div>
             <!--time-->
-            <div style="
-                background-color: red; 
-                width: 100px; 
-                height: 100px;
-                flex-shrink: 0;"></div>
+            <div 
+                id="timer"
+                style="
+                    background-color: red; 
+                    width: 100px; 
+                    height: 100px;
+                    flex-shrink: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                ">
+                10    
+            </div>
             <!--enemy health-->
             <div style="position: relative; height: 30px; width: 100%;">
                 <div  style="
@@ -59,6 +67,21 @@
                 </div>
             </div>
             <div></div>
+        </div>
+        <!--in khi bắt đầu trận đấu-->
+        <div 
+            id = 'displayText'
+            style="
+                position: absolute; 
+                color: white; 
+                display: none; 
+                align-items: center; 
+                justify-content: center; 
+                top: 0; 
+                right: 0;
+                left: 0;
+                bottom: 0;">
+                    Time
         </div>
         <canvas></canvas>
     </div>

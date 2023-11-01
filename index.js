@@ -151,7 +151,39 @@ function rectangulareCollirion({rectangule1, rectangule2}){
         )
 }
 
+//Nhận diện ai thắng 
+function determineWinner({player, enemy, timeId}){
+    clearTimeout(timeId)
+    document.querySelector('#displayText').style.display = 'flex'
+    if (player.health === enemy.health){
+        document.querySelector('#displayText').innerHTML = 'Time'
+    }
+    else if (player.health > enemy.health){
+        document.querySelector('#displayText').innerHTML = 'Player 1 Wins'
+    }
+    else if (player.health < enemy.health){
+        document.querySelector('#displayText').innerHTML = 'Player 2 Wins'
+    }
+}
 
+
+//hàm đếm ngược thời gian 
+let time = 60
+let timeId
+function decreaseTimer(){
+    if (time>0){
+        timeId = setTimeout(decreaseTimer,1000)
+        time--
+        document.querySelector('#timer').innerHTML = time
+    }
+    //in ra màn hình thông tin 
+    if (time ===0){
+       determineWinner({player,enemy, timeId})
+    }
+
+}
+
+decreaseTimer()
 /*Animate start*/
 function animate(){
     window.requestAnimationFrame(animate)//vòng lặp liên hồi 
@@ -201,6 +233,11 @@ function animate(){
         player.health -= 20
         document.querySelector('#player_health').style.width = player.health + '%'
     }
+    //end game khi hết máu 
+    if (enemy.health <= 0 || player.health <= 0){
+        determineWinner({player, enemy, timeId})
+    }
+
 
     player.isAttacking = false
     enemy.isAttacking =  false

@@ -7,13 +7,24 @@ canvas.height = 576
 c.fillRect(0, 0, canvas.width, canvas.height)//vẽ hình chữ nhật 
 
 const gravity = 0.7 
-
+//background
 const background = new Sprite({
     position:{
         x : 0,
         y : 0
     },
     imageSrc: './img/background.png'
+})
+
+//shop 
+const shop = new Sprite({
+    position:{
+        x : 600,
+        y : 128
+    },
+    imageSrc: './img/shop.png',
+    scale : 2.75,
+    framesMax : 6
 })
 //tao ra player 1 start
 const player =  new Fighter({
@@ -88,6 +99,7 @@ function animate(){
     
     c.fillRect(0,0,canvas.width, canvas.height)//background color
     background.update()//background image 
+    shop.update()//update shop
     player.update()//update player
     enemy.update()//update enemy 
 

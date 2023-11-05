@@ -1,7 +1,7 @@
 /*Sprite start*/
 class Sprite{
     //hàm mặt định
-    constructor({position, imageSrc, scale = 1, framesMax = 1}){
+    constructor({position, imageSrc, scale = 1, framesMax = 1, offset = {x:0, y:0}}){
         this.position = position//vị trí
         this.height = 150
         this.width = 50
@@ -12,6 +12,7 @@ class Sprite{
         this.framesCurrent = 0
         this.framesElapsed = 0
         this.framesHold = 5
+        this.offset = offset
     }
 
     //vẽ background
@@ -23,15 +24,14 @@ class Sprite{
             this.image.width/this.framesMax,
             this.image.height,
 
-            this.position.x, 
-            this.position.y,
+            this.position.x - this.offset.x,//duy chuển hình lên đầu  
+            this.position.y - this.offset.y,
             (this.image.width/this.framesMax) * this.scale, 
             this.image.height * this.scale )
     }
 
-    update(){
-        //update background 
-        this.draw()
+    animateFrame(){
+        //chuyển động nhân vật khi đứng yên 
         this.framesElapsed++
         if (this.framesElapsed % this.framesHold === 0){
             if (this.framesCurrent < this.framesMax - 1){
@@ -41,19 +41,37 @@ class Sprite{
                 this.framesCurrent = 0
             }
         }
-        
-        
-        
+    }
+
+    update(){
+        //update background 
+        this.draw()
+        this.animateFrame()
     }
 }
 /*Sprite end*/
 
 /*Fighter start*/
-class Fighter{
+class Fighter extends Sprite{
 
     //hàm mặt định
-    constructor({position, velocity, color,offset}){
-        this.position = position//vị trí
+    constructor({
+            position, 
+            velocity, 
+            color,
+            imageSrc, 
+            scale = 1, 
+            framesMax = 1,
+            offset = { x:0 , y:0}
+        }){
+        super({
+            position,
+            imageSrc,
+            scale,
+            framesMax,
+            offset
+        })
+        
         this.velocity = velocity//vân tốc 
         this.height = 150
         this.width = 50
@@ -70,30 +88,18 @@ class Fighter{
         }
         this.isAttacking
         this.health = 100
-    }
 
-    //vẽ nhân vật
-    draw(){
-        //draw player
-        c.fillStyle = this.color
-        c.fillRect(this.position.x, this.position.y, this.width,this.height)//width = 50, height = 100
-        
-        if (this.isAttacking){
-            //draw attack box 
-            c.fillStyle = 'green'
-            c.fillRect(
-                this.attackBox.position.x, 
-                this.attackBox.position.y, 
-                this.attackBox.width, 
-                this.attackBox.height)
-        }
-        //draw attack box 
-       
+        this.framesCurrent = 0
+        this.framesElapsed = 0
+        this.framesHold = 5
+
     }
 
     update(){
         //duy chuyển attack box theo nhân vật 
         this.draw()
+        //duy chuyển nhân vật khi đứng yên
+        this.animateFrame()
         this.attackBox.position.x = this.position.x + this.attackBox.offset.x
         this.attackBox.position.y = this.position.y
 

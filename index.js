@@ -1,11 +1,11 @@
 const canvas = document.querySelector('canvas')//tác động lên canvas đầu tiên 
 const c = canvas.getContext('2d')
-
+//kích thước màn hình 
 canvas.width = 1024
 canvas.height = 576
 
-c.fillRect(0, 0, canvas.width, canvas.height)//vẽ hình chữ nhật 
-
+c.fillRect(0, 0, canvas.width, canvas.height)//vẽ màn hình 
+// setup trọng lực 
 const gravity = 0.7 
 //background
 const background = new Sprite({
@@ -24,14 +24,16 @@ const shop = new Sprite({
     },
     imageSrc: './img/shop.png',
     scale : 2.75,
-    framesMax : 6
+    framesMax : 6//khai bao bao nhieu frame
 })
 //tao ra player 1 start
 const player =  new Fighter({
+    //vị trí
     position: {
         x: 0,
         y: 0
     },
+    //vận tốc
     velocity:{
         x: 0,
         y: 0
@@ -39,9 +41,19 @@ const player =  new Fighter({
     offset: {
         x: 0,
         y: 0,
+    },
+    //nguồn ảnh
+    imageSrc: './img/samuraiMack/Idle.png',
+    //frame hình mã mà nhân vật có 
+    framesMax : 8,
+    //phóng to nhân vật
+    scale : 2.5,
+    //duy chuyển nhân vật
+    offset: {
+        x: 215,
+        y: 160
     }
 })
-player.color = 'red'
 
 //tao ra player 1 end
 
@@ -60,14 +72,11 @@ const enemy =  new Fighter({
         y: 0,
     }
 })
-
-enemy.color = 'blue'
-
 //tao ra player2 end
 
-console.log(player)
 
-//
+
+//điều khiển 
 const keys = {
     a: {
         pressed: false
@@ -89,9 +98,9 @@ const keys = {
     }
 }
 
-
-
+//gọi hàm đếm thời gian 
 decreaseTimer()
+
 /*Animate start*/
 function animate(){
     window.requestAnimationFrame(animate)//vòng lặp liên hồi 
@@ -101,7 +110,7 @@ function animate(){
     background.update()//background image 
     shop.update()//update shop
     player.update()//update player
-    enemy.update()//update enemy 
+    //enemy.update()//update enemy 
 
     player.velocity.x = 0//dung khi khong con an nut duy chuyen trai phai
     enemy.velocity.x = 0
@@ -155,6 +164,7 @@ function animate(){
 }
 /*Animate end*/
 
+//gọi hàm annimate()
 animate()
 
 //add Event start

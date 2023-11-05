@@ -52,6 +52,20 @@ const player =  new Fighter({
     offset: {
         x: 215,
         y: 160
+    },
+
+    //tạo frame ảnh duy chuyển cho nhân vật 
+    sprites: {
+        idle: {
+            imageSrc: './img/samuraiMack/Idle.png',
+            framesMax: 8, 
+        },
+        run: {
+            imageSrc: './img/samuraiMack/Run.png',
+            framesMax: 8,
+        },
+       
+
     }
 })
 
@@ -115,12 +129,15 @@ function animate(){
     player.velocity.x = 0//dung khi khong con an nut duy chuyen trai phai
     enemy.velocity.x = 0
 
+    player.image = player.sprites.idle.image
     //duy chuyển sang trái sang phải (player movement)
     if (keys.a.pressed && player.lastKey ==='a'){
-        player.velocity.x = -5
+        player.velocity.x = -5,
+        player.image = player.sprites.run.image 
     }
     else if(keys.d.pressed && player.lastKey ==='d'){
-        player.velocity.x = 5
+        player.velocity.x = 5,
+        player.image = player.sprites.run.image
     }
 
     //duy chuyển sang trái sang phải (enemy movement)

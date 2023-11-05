@@ -62,7 +62,8 @@ class Fighter extends Sprite{
             imageSrc, 
             scale = 1, 
             framesMax = 1,
-            offset = { x:0 , y:0}
+            offset = { x:0 , y:0},
+            sprites
         }){
         super({
             position,
@@ -77,6 +78,7 @@ class Fighter extends Sprite{
         this.width = 50
         this.lastKey
         this.color = this.color
+        // vùng tấn công 
         this.attackBox = {
             position: {
                 x: this.position.x,
@@ -86,12 +88,21 @@ class Fighter extends Sprite{
             height: 50,
             width: 100,
         }
-        this.isAttacking
-        this.health = 100
 
+        this.isAttacking
+        this.health = 100 // máu nhân vật
+        //frame ảnh
         this.framesCurrent = 0
         this.framesElapsed = 0
         this.framesHold = 5
+        this.sprites = sprites
+
+        //vòng lặp chạy qua từng frame ảnh 
+        for (const sprite in this.sprites){
+            sprites[sprite].image = new Image()
+            sprites[sprite].image.src = sprites[sprite].imageSrc
+        }
+        
 
     }
 
